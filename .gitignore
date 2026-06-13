@@ -1,0 +1,16 @@
+# File hasil compile Java
+*.class
+
+# Folder hasil build NetBeans
+build/
+dist/
+
+# File private NetBeans
+nbproject/private/
+
+# File log
+*.log
+
+# File sementara sistem
+.DS_Store
+Thumbs.db
