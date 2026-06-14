@@ -21,6 +21,13 @@ public class TemberengElips3D extends BolaElips implements Runnable {
         return this.volumeTemberengElips3D;
     }
 
+    public double hitungVolumeTemberengElips3D(double sumbuA, double sumbuB, double tinggiTembereng, double sudutDerajat) {
+        double theta = Math.toRadians(sudutDerajat);
+        this.luasAlasTembereng = 0.5 * sumbuA * sumbuB * (theta - Math.sin(theta));
+        this.volumeTemberengElips3D = this.luasAlasTembereng * tinggiTembereng;
+        return this.volumeTemberengElips3D;
+    }
+
     public double hitungLuasPermukaanTemberengElips3D() {
         double theta = Math.toRadians(this.sudutDerajat);
         double panjangBusur = (this.sudutDerajat / 360.0) * super.keliling;
@@ -34,10 +41,29 @@ public class TemberengElips3D extends BolaElips implements Runnable {
         return this.luasPermukaanTemberengElips3D;
     }
 
+    public double hitungLuasPermukaanTemberengElips3D(double sumbuA, double sumbuB, double tinggiTembereng, double sudutDerajat) {
+        double kelilingElips = super.hitungKeliling(sumbuA, sumbuB);
+        double theta = Math.toRadians(sudutDerajat);
+        double panjangBusur = (sudutDerajat / 360.0) * kelilingElips;
+        double taliBusur = 2 * Math.sqrt(
+                Math.pow(sumbuA * Math.sin(theta / 2.0), 2)
+                + Math.pow(sumbuB * (1 - Math.cos(theta / 2.0)), 2)
+        );
+        this.kelilingAlasTembereng = panjangBusur + taliBusur;
+        this.luasAlasTembereng = 0.5 * sumbuA * sumbuB * (theta - Math.sin(theta));
+        this.luasPermukaanTemberengElips3D = (2 * this.luasAlasTembereng) + (this.kelilingAlasTembereng * tinggiTembereng);
+        return this.luasPermukaanTemberengElips3D;
+    }
+
     @Override
     public void run() {
         super.run();
-        this.hitungLuasPermukaanTemberengElips3D();
-        this.hitungVolumeTemberengElips3D();
+        if (this.isManual) {
+            this.hitungLuasPermukaanTemberengElips3D(sumbuA, sumbuB, tinggiTembereng, sudutDerajat);
+            this.hitungVolumeTemberengElips3D(sumbuA, sumbuB, tinggiTembereng, sudutDerajat);
+        } else {
+            this.hitungLuasPermukaanTemberengElips3D();
+            this.hitungVolumeTemberengElips3D();
+        }
     }
 }

@@ -20,6 +20,13 @@ public class JuringElips3D extends BolaElips implements Runnable {
         return this.volumeJuringElips3D;
     }
 
+    public double hitungVolumeJuringElips3D(double sumbuA, double sumbuB, double tinggiJuring, double sudutDerajat) {
+        double luasElips = super.hitungLuas(sumbuA, sumbuB);
+        this.luasAlasJuring = (sudutDerajat / 360.0) * luasElips;
+        this.volumeJuringElips3D = this.luasAlasJuring * tinggiJuring;
+        return this.volumeJuringElips3D;
+    }
+
     public double hitungLuasPermukaanJuringElips3D() {
         double panjangBusur = (this.sudutDerajat / 360.0) * super.keliling;
         double rataRataJariJari = (super.sumbuA + super.sumbuB) / 2.0;
@@ -29,10 +36,26 @@ public class JuringElips3D extends BolaElips implements Runnable {
         return this.luasPermukaanJuringElips3D;
     }
 
+    public double hitungLuasPermukaanJuringElips3D(double sumbuA, double sumbuB, double tinggiJuring, double sudutDerajat) {
+        double luasElips = super.hitungLuas(sumbuA, sumbuB);
+        double kelilingElips = super.hitungKeliling(sumbuA, sumbuB);
+        double panjangBusur = (sudutDerajat / 360.0) * kelilingElips;
+        double rataRataJariJari = (sumbuA + sumbuB) / 2.0;
+        this.kelilingAlasJuring = panjangBusur + (2 * rataRataJariJari);
+        this.luasAlasJuring = (sudutDerajat / 360.0) * luasElips;
+        this.luasPermukaanJuringElips3D = (2 * this.luasAlasJuring) + (this.kelilingAlasJuring * tinggiJuring);
+        return this.luasPermukaanJuringElips3D;
+    }
+
     @Override
     public void run() {
         super.run();
-        this.hitungLuasPermukaanJuringElips3D();
-        this.hitungVolumeJuringElips3D();
+        if (this.isManual) {
+            this.hitungLuasPermukaanJuringElips3D(sumbuA, sumbuB, tinggiJuring, sudutDerajat);
+            this.hitungVolumeJuringElips3D(sumbuA, sumbuB, tinggiJuring, sudutDerajat);
+        } else {
+            this.hitungLuasPermukaanJuringElips3D();
+            this.hitungVolumeJuringElips3D();
+        }
     }
 }

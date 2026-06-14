@@ -20,6 +20,13 @@ public class CincinElips3D extends BolaElips implements Runnable {
         return this.volumeCincinElips3D;
     }
 
+    public double hitungVolumeCincinElips3D(double sumbuA, double sumbuB, double tinggiCincin, double faktorDalam) {
+        double luasElips = super.hitungLuas(sumbuA, sumbuB);
+        this.luasAlasCincin = luasElips * (1 - Math.pow(faktorDalam, 2));
+        this.volumeCincinElips3D = this.luasAlasCincin * tinggiCincin;
+        return this.volumeCincinElips3D;
+    }
+
     public double hitungLuasPermukaanCincinElips3D() {
         this.luasAlasCincin = super.luas * (1 - Math.pow(this.faktorDalam, 2));
         this.kelilingAlasCincin = super.keliling + (super.keliling * this.faktorDalam);
@@ -27,10 +34,24 @@ public class CincinElips3D extends BolaElips implements Runnable {
         return this.luasPermukaanCincinElips3D;
     }
 
+    public double hitungLuasPermukaanCincinElips3D(double sumbuA, double sumbuB, double tinggiCincin, double faktorDalam) {
+        double luasElips = super.hitungLuas(sumbuA, sumbuB);
+        double kelilingElips = super.hitungKeliling(sumbuA, sumbuB);
+        this.luasAlasCincin = luasElips * (1 - Math.pow(faktorDalam, 2));
+        this.kelilingAlasCincin = kelilingElips + (kelilingElips * faktorDalam);
+        this.luasPermukaanCincinElips3D = (2 * this.luasAlasCincin) + (this.kelilingAlasCincin * tinggiCincin);
+        return this.luasPermukaanCincinElips3D;
+    }
+
     @Override
     public void run() {
         super.run();
-        this.hitungLuasPermukaanCincinElips3D();
-        this.hitungVolumeCincinElips3D();
+        if (this.isManual) {
+            this.hitungLuasPermukaanCincinElips3D(sumbuA, sumbuB, tinggiCincin, faktorDalam);
+            this.hitungVolumeCincinElips3D(sumbuA, sumbuB, tinggiCincin, faktorDalam);
+        } else {
+            this.hitungLuasPermukaanCincinElips3D();
+            this.hitungVolumeCincinElips3D();
+        }
     }
 }

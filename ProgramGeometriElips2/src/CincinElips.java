@@ -53,7 +53,12 @@ public class CincinElips extends Elips implements Runnable {
 
     @Override
     public void run() {
-        this.hitungLuas();
-        this.hitungKeliling();
+        if (this.isManual) {
+            this.hitungLuasCincin(sumbuA, sumbuB, faktorDalam);
+            this.hitungKelilingCincin(sumbuA, sumbuB, faktorDalam);
+        } else {
+            this.hitungLuas();
+            this.hitungKeliling();
+        }
     }
 }

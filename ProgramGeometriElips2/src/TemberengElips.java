@@ -62,7 +62,12 @@ public class TemberengElips extends Elips implements Runnable {
 
     @Override
     public void run() {
-        this.hitungLuas();
-        this.hitungKeliling();
+        if (this.isManual) {
+            this.hitungLuasTembereng(sumbuA, sumbuB, sudutDerajat);
+            this.hitungKelilingTembereng(sumbuA, sumbuB, sudutDerajat);
+        } else {
+            this.hitungLuas();
+            this.hitungKeliling();
+        }
     }
 }
